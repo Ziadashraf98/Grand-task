@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ad;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -36,12 +37,18 @@ class AdController extends Controller
         return response()->json(['success'=>true , 'data'=>$ad]);
     }
 
-    public function show_advertiser_ads()
+    public function show_advertiser_ads($id)
     {
-        $advertiser_ads = Ad::with(['advertiser'=>function($q){
-            $q->select('id','name');
-        }])->get()->makeHidden(['advertiser_id','description']);
-        
+        $advertiser_ads = User::select('id','name')->with(['ad'=>function($q){
+            $q->select('id','title','type','advertiser_id','category_id');
+        }])->find($id);
         return response()->json(['success'=>true , 'data'=>$advertiser_ads]);
+    }
+
+    public function searchByCategory($id=null)
+    {
+        $categories = Ad::where('category_id', 'like' ,'%'. $id .'%')->get();
+
+        return response()->json(['success'=>true , 'data'=>$categories]);
     }
 }
