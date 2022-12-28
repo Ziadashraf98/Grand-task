@@ -31,7 +31,8 @@ Route::controller(CategoryController::class)->group(function() {
 Route::controller(AdController::class)->group(function() {
     Route::post('/add_ad' , 'add_ad');
     Route::get('/advertiser_ads/{id}' , 'show_advertiser_ads');
-    Route::get('/search_by_category/{name?}' , 'searchByCategory');
+    Route::get('/search_by_category/{name}' , 'searchByCategory');
+    Route::get('/search_by_tag/{name}' , 'searchByTag');
 });
 
 Route::controller(TagController::class)->group(function() {

@@ -10,4 +10,9 @@ class Tag extends Model
     use HasFactory;
     protected $fillable = ['tag_name' , 'ad_id'];
     protected $hidden = ['created_at' , 'updated_at'];
+
+    public function ad()
+    {
+        return $this->belongsTo(Ad::class , 'ad_id');
+    }
 }

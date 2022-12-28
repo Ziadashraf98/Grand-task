@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ad;
 use App\Models\Category;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -45,10 +46,15 @@ class AdController extends Controller
         return response()->json(['success'=>true , 'data'=>$advertiser_ads]);
     }
 
-    public function searchByCategory($id=null)
+    public function searchByCategory($name)
     {
-        $categories = Ad::where('category_id', 'like' ,'%'. $id .'%')->get();
+        $category = Category::where('category_name', 'like' ,'%'. $name .'%')->first()->ads;
+        return response()->json(['success'=>true , 'data'=>$category]);
+    }
 
-        return response()->json(['success'=>true , 'data'=>$categories]);
+    public function searchByTag($name)
+    {
+        $tag = Tag::where('tag_name', 'like' ,'%'. $name .'%')->first()->ad;
+        return response()->json(['success'=>true , 'data'=>$tag]);
     }
 }
